@@ -214,12 +214,6 @@ def check_clean_validation_config(dataset_yml: Path, warnings: list[str]) -> Non
         return  # compose (mart-only) — no clean layer validation needed
 
     clean_validate = cfg.clean.validate
-    if clean_validate is None:
-        warnings.append(
-            f"{dataset_yml.relative_to(ROOT)}: manca clean.validate — "
-            "aggiungilo per avere validazione automatica"
-        )
-        return
     missing: list[str] = []
     if not clean_validate or not clean_validate.not_null:
         missing.append("clean.validate.not_null")
