@@ -31,6 +31,10 @@ di oltre 10 volte tra nazionalità.
   `tasso_riconoscimento`, `tasso_diniego`, `quota_reiterate`.
 - **Mart**: `mart_asilo_annuale` (anno × cittadinanza), `mart_asilo_italia` (serie
   nazionale).
+- **Riconciliazione**: `mart_asilo_italia` usa la riga Eurostat `TOTAL`, che include
+  anche `UNK` (cittadinanza ignota) e l'arrotondamento a 5. `mart_asilo_annuale` esclude
+  gli aggregati, quindi la somma per cittadinanza non coincide col totale nazionale:
+  usare `mart_asilo_italia` per i totali e `mart_asilo_annuale` per i confronti tra paesi.
 
 ## Perché vale la pena
 
@@ -43,8 +47,8 @@ di oltre 10 volte tra nazionalità.
 ## Output minimo atteso
 
 Clean parquet + due mart. Numeri chiave: 158.605 domande nel 2024 (picco serie),
-104.560 decisioni nel 2025 con tasso di riconoscimento 30,0%; nel 2022 il tasso è 48,4%
-(Bangladesh 19,7%, Burkina Faso 98,8%).
+104.560 decisioni nel 2025 con tasso di riconoscimento 30,0%; nel 2024 il tasso è 35,9%
+(Bangladesh 19,7%, Burkina Faso 98,8%), in calo dal 48,4% del 2022.
 
 ## Criterio di promozione
 
@@ -56,7 +60,7 @@ Clean parquet + due mart. Numeri chiave: 158.605 domande nel 2024 (picco serie),
 
 ## Stato
 
-- [x] scaffold + run raw/clean/mart (validate ok, 30.455 righe clean)
+- [x] scaffold + run raw/clean/mart (validate ok, 30.454 righe clean)
 - [x] confronto con riepilogo ufficiale CNA 2022
 - [x] audit dati + hardening script (reiterate derivate, cast BIGINT, retry/fail-fast,
       dedupe, scrittura atomica, sanity check)

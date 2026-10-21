@@ -36,15 +36,20 @@ granularità per Commissione Territoriale.
   il mart deriva `domande_reiterate = totale − prima istanza` e lo segnala con
   `reiterate_derivate = true`; dal 2021 il valore è quello pubblicato e
   `reiterate_derivate = false`. Dove entrambi esistono la derivazione coincide con `SSEQ`
-  (scarti 0-35 per arrotondamento a 5).
+  (scarti ±5 per arrotondamento a 5).
 - Eurostat arrotonda le celle a multipli di 5 per riservatezza: `POS` può differire da
   `POS_RFG + POS_SPROT + POS_HUM` di ±5 (verificato: max |scarto| = 5 su 444 casi).
 - Etichette cittadinanza dal codelist `CITIZEN` (inglese, fedeltà alla fonte). Il codice
   ISO2 è la chiave di join.
-- Aggregati esclusi dai mart (`aggregato = true`): ogni codice che non è ISO-3166
-  alpha-2 (`TOTAL`, `EU*`, `EUR`, `EXT_EU27_2020`, `UK_OCT`, `UNK`), con eccezione per
-  `RNC` (recognised non-citizens) e `STLS` (apolidi), che sono categorie di persone.
-  La regola è calcolata in SQL e copre automaticamente eventuali nuovi codici aggregati.
+- Aggregati esclusi dai mart (`aggregato = true`): i codici che non sono a due lettere
+  (`TOTAL`, `EU27_2020`, `EXT_EU27_2020`, `UK_OCT`, `UNK`), con eccezione per `RNC`
+  (recognised non-citizens) e `STLS` (apolidi), che sono categorie di persone. La regola
+  è calcolata in SQL e copre automaticamente eventuali nuovi codici aggregati; resta un
+  criterio euristico (non una validazione ISO-3166), perché `UK`, `EL` e `XK` sono paesi
+  pur non essendo codici ISO.
+- `mart_asilo_italia` usa la riga `TOTAL` (che include `UNK` e l'arrotondamento a 5),
+  mentre `mart_asilo_annuale` esclude gli aggregati: la somma per cittadinanza non
+  coincide col totale nazionale. Esempio 2024: 158.375 + 225 `UNK` ≈ 158.605.
 - Snapshot unico (`years: [2026]`), serie completa 2008-2025 scaricata in un colpo.
 
 ## Analitico — scarto con il dato ufficiale CNA
